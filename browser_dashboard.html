@@ -1,0 +1,197 @@
+<!--
+  README: Browser Environment Dashboard
+
+  This HTML file presents a functional dashboard that demonstrates various browser-related 
+  capabilities using JavaScript. It is designed as a student project for the course 
+  "PF2 - Event-Driven Programming" and includes personalized academic information 
+  for myself Brian Al P. Tenorio.
+
+  The dashboard is divided into three main parts:
+  A. Browser Information – Displays browser type, version, platform, screen size, and more.
+  B. Page Information and Controls – Shows the current URL and title, and allows title editing.
+  C. Navigation Controls – Buttons to reload, redirect, or navigate through browser history.
+
+  Additionally, the page dynamically changes its background color based on window size to reflect 
+  a responsive design concept. The user interface is styled with consistent theming for clarity 
+  and user interaction.
+-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Browser Environment Dashboard</title>
+  <style>
+    :root {
+      --primary-color: #20B2AA;
+      --hover-color: #1E9A90;
+      --section-bg: #FFFFFF;
+      --border-color: #20B2AA;
+      --text-color: #333;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      color: var(--text-color);
+      background-color: #F0F8FF;
+      margin: 0;
+      padding: 0;
+      transition: background-color 0.5s;
+    }
+
+    header {
+      background-color: var(--section-bg);
+      border: 2px solid var(--border-color);
+      border-radius: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+      margin: 20px auto;
+      padding: 30px 20px;
+      max-width: 800px;
+      text-align: center;
+    }
+
+    header h1 {
+      margin-bottom: 15px;
+      color: var(--primary-color);
+    }
+
+    header p {
+      margin: 4px 0;
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: var(--section-bg);
+      border: 2px solid var(--border-color);
+      border-radius: 20px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      color: var(--primary-color);
+      margin-top: 0;
+    }
+
+    .info {
+      margin: 10px 0;
+      line-height: 1.6;
+    }
+
+    button {
+      margin: 8px 6px 0 0;
+      padding: 10px 16px;
+      background-color: var(--primary-color);
+      color: #fff;
+      border: 2px solid var(--primary-color);
+      border-radius: 12px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.2s ease;
+    }
+
+    button:hover {
+      background-color: var(--hover-color);
+      transform: translateY(-1px);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Browser Environment Dashboard</h1>
+    <p><strong>Complete Name:</strong>Brian Al P. Tenorio</p>
+    <p><strong>Sex:</strong> Male</p>
+    <p><strong>Address:</strong> San Francisco Ocampo, Camarines Sur</p>
+    <p><strong>Course, Year, Section:</strong> BSIT 2B</p>
+    <p><strong>Name of School:</strong> Partido State University</p>
+    <p><strong>Semester and Academic Year:</strong> 2nd Sem, AY 2024–2025</p>
+    <p><strong>Subject Code and Title:</strong> PF2 – Event-Driven Programming</p>
+    <p><strong>Name of Subject Instructor:</strong> Sir Arjay Abio</p>
+  </header>
+
+  <div class="container">
+    <h2>Part A: Browser Information</h2>
+    <div class="info" id="browserInfo"></div>
+  </div>
+
+  <div class="container">
+    <h2>Part B: Page Information and Controls</h2>
+    <div class="info" id="pageInfo"></div>
+    <button onclick="changeTitle()">Change Page Title</button>
+  </div>
+
+  <div class="container">
+    <h2>Part C: Navigation Controls</h2>
+    <button onclick="location.reload()">Reload Page</button>
+    <button onclick="goToCustomURL()">Redirect to URL</button>
+    <button onclick="history.back()">Go Back</button>
+    <button onclick="history.forward()">Go Forward</button>
+  </div>
+
+  <script>
+  // Part A: Browser Information
+  // This block gets information about the browser and screen, and displays it in the "browserInfo" div.
+  const browserInfo = document.getElementById("browserInfo");
+  browserInfo.innerHTML = `
+    <p><strong>Browser:</strong> ${navigator.appName}</p>
+    <p><strong>Browser Version:</strong> ${navigator.appVersion}</p>
+    <p><strong>Platform:</strong> ${navigator.platform}</p>
+    <p><strong>Java Enabled:</strong> ${navigator.javaEnabled()}</p>
+    <p><strong>Screen Resolution:</strong> ${screen.width} x ${screen.height}</p>
+    <p><strong>Available Screen Size:</strong> ${screen.availWidth} x ${screen.availHeight}</p>
+    <p><strong>Color Depth:</strong> ${screen.colorDepth}</p>
+  `;
+
+  // Part B: Page Info
+  // This block displays the current page's URL, hostname, and title.
+  const pageInfo = document.getElementById("pageInfo");
+  pageInfo.innerHTML = `
+    <p><strong>Current URL:</strong> ${document.URL}</p>
+    <p><strong>Hostname:</strong> ${location.hostname}</p>
+    <p><strong>Page Title:</strong> <span id="pageTitle">${document.title}</span></p>
+  `;
+
+  // Function to change the page's title
+  function changeTitle() {
+    const newTitle = prompt("Enter new page title:",document.title );
+    if (newTitle) {
+      document.title = newTitle; // Changes the document's actual title
+      document.getElementById("pageTitle").textContent = newTitle; // Updates the title shown on the page
+    }
+  }
+
+  // Function to redirect the user to a custom URL
+  function goToCustomURL() {
+    let url = prompt("Enter the URL you want to visit:", "https://www.example.com");
+    if (url) {
+      // Ensures the URL starts with http or https
+      if (!url.startsWith("http://") && !url.startsWith("https://")) {
+        url = "https://" + url;
+      }
+      window.location.href = url; // Redirects to the entered URL
+    }
+  }
+
+  // Part D: Dynamic Styling
+  // Changes the background color based on the window width (responsive design)
+  function applyBackgroundColor() {
+    const width = window.innerWidth;
+    if (width < 600) {
+      document.body.style.backgroundColor = "#87CEEB"; // Mobile - Blue
+    } else if (width < 992) {
+      document.body.style.backgroundColor = "#90EE90"; // Tablet - Green
+    } else {
+      document.body.style.backgroundColor = "#FFA500"; // Desktop - Orange
+    }
+  }
+
+  // Apply background color when the page loads and whenever the window is resized
+  window.addEventListener("load", applyBackgroundColor);
+  window.addEventListener("resize", applyBackgroundColor);
+</script>
+
+</body>
+</html>
